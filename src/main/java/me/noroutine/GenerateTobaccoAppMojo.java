@@ -25,13 +25,17 @@ public class GenerateTobaccoAppMojo extends AbstractMojo {
     protected BuildPluginManager pluginManager;
 
     public void execute() throws MojoExecutionException {
+        String version = GenerateTobaccoAppMojo.class.getPackage().getImplementationVersion();
+
+        System.out.println("Using Tobacco Bootstrap " + version);
+
         executeMojo(
                 plugin("org.apache.maven.plugins", "maven-archetype-plugin", "2.2"),
                 "generate",
                 configuration(
                         element(name("archetypeGroupId"), "me.noroutine"),
                         element(name("archetypeArtifactId"), "tobacco-bootstrap"),
-                        element(name("archetypeVersion"), "1.0.7")
+                        element(name("archetypeVersion"), version)
                 ),
                 executionEnvironment(project, session, pluginManager)
             );
