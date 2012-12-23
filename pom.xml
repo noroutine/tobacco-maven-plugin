@@ -2,13 +2,46 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+        <relativePath></relativePath>
+    </parent>
+
     <groupId>me.noroutine</groupId>
-    <artifactId>tobacco-maven-plugin</artifactId>
+    <artifactId>tobacco</artifactId>
+
+    <version>1.0.8-SNAPSHOT</version>
+    <name>tobacco maven plugin for managing Tobacco application</name>
 
     <packaging>maven-plugin</packaging>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>tobacco-maven-plugin Maven Mojo</name>
-    <url>http://maven.apache.org</url>
+    <url>http://tobacco.noroutine.me/</url>
+
+    <description>Tobacco plugin for super-fast Tobacco project generation</description>
+
+    <licenses>
+        <license>
+            <name>Tobacco Bootstrap License</name>
+            <url>https://github.com/noroutine/tobacco-bootstrap/blob/master/LICENSE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>git@github.com:noroutine/tobacco-maven-plugin.git</url>
+        <connection>scm:git:git@github.com:noroutine/tobacco-maven-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:noroutine/tobacco-maven-plugin.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>oleksiy@noroutine.me</id>
+            <name>Oleksii Khilkevych</name>
+            <email>oleksiy@noroutine.me</email>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,11 +60,25 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
                     <!-- see http://jira.codehaus.org/browse/MNG-5346 -->
                     <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                    <goalPrefix>tobacco</goalPrefix>
                 </configuration>
                 <executions>
                     <execution>
@@ -40,19 +87,17 @@
                             <goal>descriptor</goal>
                         </goals>
                     </execution>
-                    <!-- if you want to generate help goal -->
+                    <!-- if you want to generate help goal
                     <execution>
                         <id>help-goal</id>
                         <goals>
                             <goal>helpmojo</goal>
                         </goals>
                     </execution>
+                    -->
                 </executions>
             </plugin>
-
         </plugins>
-
-
     </build>
 
     <dependencies>
@@ -67,5 +112,40 @@
             <version>3.2</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+        	<groupId>org.twdata.maven</groupId>
+        	<artifactId>mojo-executor</artifactId>
+        	<version>2.0</version>
+        </dependency>
     </dependencies>
+
+    <profiles>
+         <profile>
+             <id>sign-artifacts</id>
+             <activation>
+                 <property>
+                     <name>performRelease</name>
+                     <value>true</value>
+                 </property>
+             </activation>
+             <build>
+                 <plugins>
+                     <plugin>
+                         <groupId>org.apache.maven.plugins</groupId>
+                         <artifactId>maven-gpg-plugin</artifactId>
+                         <version>1.4</version>
+                         <executions>
+                             <execution>
+                                 <id>sign-artifacts</id>
+                                 <phase>verify</phase>
+                                 <goals>
+                                     <goal>sign</goal>
+                                 </goals>
+                             </execution>
+                         </executions>
+                     </plugin>
+                 </plugins>
+             </build>
+         </profile>
+     </profiles>
 </project>
