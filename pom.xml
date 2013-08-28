@@ -12,7 +12,7 @@
     <groupId>me.noroutine</groupId>
     <artifactId>tobacco</artifactId>
 
-    <version>1.0.12-SNAPSHOT</version>
+    <version>1.0.14-SNAPSHOT</version>
     <name>tobacco maven plugin for managing Tobacco application</name>
 
     <packaging>maven-plugin</packaging>
